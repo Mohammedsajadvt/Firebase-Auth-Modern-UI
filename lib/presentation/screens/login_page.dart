@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:login/components/my_button.dart';
 import 'package:login/components/my_textfield.dart';
@@ -8,8 +11,17 @@ class LoginPage extends StatelessWidget {
 
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+  final FirebaseAuth  _firebaseAuth = FirebaseAuth.instance;
 
-  void signUserIn() {}
+  void signUserIn()async {
+   try{
+    UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(email: usernameController.text, password: passwordController.text);
+    log('Login Success');
+   }catch(e){
+    log('$e Login Failed');
+
+   }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +51,7 @@ class LoginPage extends StatelessWidget {
                 ),
                 MyTextfield(
                   controller: usernameController,
-                  hintText: 'Username',
+                  hintText: 'Email',
                   obsecureText: false,
                 ),
                 const SizedBox(
@@ -97,9 +109,9 @@ class LoginPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 50,),
                 const Row(mainAxisAlignment: MainAxisAlignment.center,children: [
-                  SquareTitle(imagePath: "lib/images/google.png"),
+                  SquareTitle(imagePath: "images/google.png"),
                   SizedBox(width: 25,),
-                  SquareTitle(imagePath: "lib/images/apple.png"),
+                  SquareTitle(imagePath: "images/apple.png"),
                 ],),
                 const SizedBox(height: 50,),
                  Row(
