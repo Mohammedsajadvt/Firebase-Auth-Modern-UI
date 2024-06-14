@@ -1,27 +1,19 @@
 import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:login/components/my_button.dart';
 import 'package:login/components/my_textfield.dart';
 import 'package:login/components/square_title.dart';
+import 'package:login/presentation/screens/signup_page.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
-  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final FirebaseAuth  _firebaseAuth = FirebaseAuth.instance;
 
-  void signUserIn()async {
-   try{
-    UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(email: usernameController.text, password: passwordController.text);
-    log('Login Success');
-   }catch(e){
-    log('$e Login Failed');
 
-   }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +42,7 @@ class LoginPage extends StatelessWidget {
                   height: 25,
                 ),
                 MyTextfield(
-                  controller: usernameController,
+                  controller: emailController,
                   hintText: 'Email',
                   obsecureText: false,
                 ),
@@ -81,7 +73,10 @@ class LoginPage extends StatelessWidget {
                   height: 25,
                 ),
                 MyButton(
-                  onTap: signUserIn,
+                  text: 'Sign In',
+                  onTap: (){
+                    
+                  },
                 ),
                 const SizedBox(
                   height: 50,
@@ -118,8 +113,9 @@ class LoginPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                   Text('Not a member?',style: TextStyle(color: Colors.grey[700]),),
-                  const SizedBox(width: 4,),
-                  const Text('Register now',style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),)
+                  TextButton(onPressed: (){
+                   Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SignupPage()));
+                  },child:const Text('Register now',style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold)))
                 ],)
               ],
             ),
@@ -129,3 +125,4 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
+
